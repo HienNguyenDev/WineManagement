@@ -50,10 +50,5 @@ namespace WineWarehouseManagement
                 MessageBox.Show("Invalid Email or password.");
             }
         }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
     }
 }

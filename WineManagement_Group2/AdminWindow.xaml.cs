@@ -51,7 +51,7 @@ namespace WineWarehouseManagement
         {
             if (string.IsNullOrWhiteSpace(StaffNameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(StaffEmailTextBox.Text) ||
-                string.IsNullOrWhiteSpace(StaffPasswordBox.Text))
+                string.IsNullOrWhiteSpace(StaffPasswordBox.Password))
             {
                 MessageBox.Show("Please fill in all required fields (Name, Email, and Password).", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -73,7 +73,7 @@ namespace WineWarehouseManagement
             {
                 Username = StaffNameTextBox.Text,
                 Email = StaffEmailTextBox.Text,
-                PasswordHash = StaffPasswordBox.Text,
+                PasswordHash = StaffPasswordBox.Password,
                 Role = "Staff"
             };
 
@@ -87,7 +87,7 @@ namespace WineWarehouseManagement
         {
             if (string.IsNullOrWhiteSpace(StaffNameTextBox.Text) ||
             string.IsNullOrWhiteSpace(StaffEmailTextBox.Text) ||
-            string.IsNullOrWhiteSpace(StaffPasswordBox.Text))
+            string.IsNullOrWhiteSpace(StaffPasswordBox.Password))
             {
                 MessageBox.Show("Please fill in all required fields (Name, Email, and Password).", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -113,7 +113,7 @@ namespace WineWarehouseManagement
                 {
                     selectedStaff.Username = StaffNameTextBox.Text;
                     selectedStaff.Email = StaffEmailTextBox.Text;
-                    selectedStaff.PasswordHash = StaffPasswordBox.Text;
+                    selectedStaff.PasswordHash = StaffPasswordBox.Password;
                     selectedStaff.Role = StaffRole.Text;
 
                     _accountDAO.UpdateAccount(selectedStaff);
@@ -158,7 +158,7 @@ namespace WineWarehouseManagement
         {
             // Clears the text fields after creating, updating, or deleting
             StaffNameTextBox.Text = string.Empty;
-            StaffPasswordBox.Text = string.Empty;
+            StaffPasswordBox.Password = string.Empty;
             StaffEmailTextBox.Text = string.Empty;
         }
 
@@ -176,7 +176,7 @@ namespace WineWarehouseManagement
         {
             if (string.IsNullOrWhiteSpace(ManagerNameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(ManagerEmailTextBox.Text) ||
-                string.IsNullOrWhiteSpace(ManagerPasswordTextBox.Text))
+                string.IsNullOrWhiteSpace(ManagerPasswordTextBox.Password))
             {
                 MessageBox.Show("Please fill in all required fields (Name, Email, and Password).", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -197,7 +197,7 @@ namespace WineWarehouseManagement
             {
                 Username = ManagerNameTextBox.Text,
                 Email = ManagerEmailTextBox.Text,
-                PasswordHash = ManagerPasswordTextBox.Text,
+                PasswordHash = ManagerPasswordTextBox.Password,
                 Role = "Manager"
             };
 
@@ -213,17 +213,7 @@ namespace WineWarehouseManagement
             {
                 ManagerNameTextBox.Text = selectedManager.Username;
                 ManagerEmailTextBox.Text = selectedManager.Email;
-                ManagerPasswordTextBox.Text = selectedManager.PasswordHash;
-
-                // Set the ComboBox to the selected role
-                foreach (ComboBoxItem item in ManagerRoleComboBox.Items)
-                {
-                    if (item.Content.ToString() == selectedManager.Role)
-                    {
-                        ManagerRoleComboBox.SelectedItem = item;
-                        break;
-                    }
-                }
+                ManagerPasswordTextBox.Password = selectedManager.PasswordHash;
             }
             else
             {
@@ -236,13 +226,13 @@ namespace WineWarehouseManagement
         {
             if (string.IsNullOrWhiteSpace(ManagerNameTextBox.Text) ||
                     string.IsNullOrWhiteSpace(ManagerEmailTextBox.Text) ||
-                    string.IsNullOrWhiteSpace(ManagerPasswordTextBox.Text))
+                    string.IsNullOrWhiteSpace(ManagerPasswordTextBox.Password))
             {
                 MessageBox.Show("Please fill in all required fields (Name, Email, and Password).", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (ManagerDataGrid.SelectedItem is Account selectedManager && ManagerRoleComboBox.SelectedItem is ComboBoxItem selectedRoleItem)
+            if (ManagerDataGrid.SelectedItem is Account selectedManager)
             {
                 if (!IsValidGmail(ManagerEmailTextBox.Text))
                 {
@@ -261,8 +251,8 @@ namespace WineWarehouseManagement
                 {
                     managerToUpdate.Username = ManagerNameTextBox.Text;
                     managerToUpdate.Email = ManagerEmailTextBox.Text;
-                    managerToUpdate.PasswordHash = ManagerPasswordTextBox.Text;
-                    managerToUpdate.Role = selectedRoleItem.Content.ToString();
+                    managerToUpdate.PasswordHash = ManagerPasswordTextBox.Password;
+                    managerToUpdate.Role = ManagerRole.Text.ToString();
 
                     _accountDAO.UpdateAccount(managerToUpdate);
                     LoadManagerList();
@@ -300,7 +290,6 @@ namespace WineWarehouseManagement
             ManagerNameTextBox.Clear();
             ManagerEmailTextBox.Clear();
             ManagerPasswordTextBox.Clear();
-            ManagerRoleComboBox.SelectedIndex = -1;
         }
 
         // WareHouse
@@ -432,14 +421,6 @@ namespace WineWarehouseManagement
                 }
             }
         }
-
-
-
-
-
-
-
-
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow login = new LoginWindow();
@@ -454,7 +435,7 @@ namespace WineWarehouseManagement
 
                 StaffNameTextBox.Text = selectedStaff.Username.ToString();
                 StaffEmailTextBox.Text = selectedStaff.Email;
-                StaffPasswordBox.Text = selectedStaff.PasswordHash; // Assuming you want to display this as well
+                StaffPasswordBox.Password = selectedStaff.PasswordHash; // Assuming you want to display this as well
                 StaffRole.Text = selectedStaff.Role.ToString(); // Convert boolean to string
 
 
@@ -470,8 +451,8 @@ namespace WineWarehouseManagement
 
                 ManagerNameTextBox.Text = selectedStaff.Username.ToString();
                 ManagerEmailTextBox.Text = selectedStaff.Email;
-                ManagerPasswordTextBox.Text = selectedStaff.PasswordHash; // Assuming you want to display this as well
-                ManagerRoleComboBox.Text = selectedStaff.Role.ToString(); // Convert boolean to string
+                ManagerPasswordTextBox.Password = selectedStaff.PasswordHash; // Assuming you want to display this as well
+                ManagerRole.Text = selectedStaff.Role.ToString(); // Convert boolean to string
 
 
             }
